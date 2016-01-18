@@ -7,9 +7,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fleg/nwjs-chromedriver-selenium.git"
+    "url": "git+https://github.com/fleg/nw.js-chromedriver-selenium.git"
   },
   "author": "fleg",
   "license": "MIT",
-  "homepage": "https://github.com/fleg/nwjs-chromedriver-selenium#readme"
+  "homepage": "https://github.com/fleg/nw.js-chromedriver-selenium#readme"
 }
