@@ -1,5 +1,5 @@
 {
-  "name": "nwjs-chromedriver-selenium",
+  "name": "nw.js-chromedriver-selenium",
   "version": "1.0.0",
   "description": "nw.js chromedriver and selenium binaries",
   "scripts": {
