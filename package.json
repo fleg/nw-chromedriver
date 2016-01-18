@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "nw.js chromedriver and selenium binaries",
   "scripts": {
-    "postinstall": "if test -d ./node_modules/nw/nwjs; then cp chromedriver selenium-server-standalone.jar ./node_modules/nw/nwjs; else echo \"can not find nw.js!\" && false; fi"
+    "postinstall": "[ -d ../nw/nwjs ] && cp chromedriver selenium-server-standalone.jar ../nw/nwjs || false"
   },
   "repository": {
     "type": "git",
