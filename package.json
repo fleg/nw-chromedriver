@@ -1,15 +1,12 @@
 {
-  "name": "nw.js-chromedriver-selenium",
-  "version": "1.0.0",
-  "description": "nw.js chromedriver and selenium binaries",
-  "scripts": {
-    "postinstall": "[ -d ../nw/nwjs ] && cp chromedriver selenium-server-standalone.jar ../nw/nwjs || false"
-  },
+  "name": "nw-chromedriver",
+  "version": "0.12.2",
+  "description": "nw.js chromedriver binary",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fleg/nw.js-chromedriver-selenium.git"
+    "url": "git+https://github.com/fleg/nw-chromedriver.git"
   },
   "author": "fleg",
   "license": "MIT",
-  "homepage": "https://github.com/fleg/nw.js-chromedriver-selenium#readme"
+  "homepage": "https://github.com/fleg/nw-chromedriver#readme"
 }
