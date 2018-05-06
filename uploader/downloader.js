@@ -18,6 +18,8 @@ module.exports = function(nwVersion, platform, arch) {
   validatePlatform(platform);
   validateArch(arch);
 
+  console.log("Downloading '" + nwVersion + ":" + platform + ":" + arch + "'");
+
   return (new builder.Downloader({
     platform: platform,
     arch: arch,

@@ -2,8 +2,11 @@
 
 const version = "0.13.0";
 
-const drivers = require("./fetch")(version);
+const downloads = require("./fetch")(version);
+const uploader = require("./uploader");
 
-drivers.then(function(downloads) {
-  console.log(JSON.stringify(downloads));
+downloads.then(function(drivers) {
+  return drivers.map(function(driver) {
+    return uploader(driver.version, driver.platform, driver.arch, driver.path);
+  });
 });
