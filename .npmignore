@@ -2,3 +2,4 @@
 /.idea/
 /installer/
 /uploader/
+!/encrypt.js
