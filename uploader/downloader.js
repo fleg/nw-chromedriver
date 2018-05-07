@@ -45,7 +45,7 @@ module.exports = function(nwVersion, platform, arch) {
   })
   .then(function(filename) {
     return {
-      version: nwVersion,
+      nwVersion: nwVersion,
       platform: platform,
       arch: arch,
       path: filename

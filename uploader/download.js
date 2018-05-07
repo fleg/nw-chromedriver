@@ -1,6 +1,6 @@
 "use strict";
 
-const download = require("./downloader");
+const downloader = require("./downloader");
 
 module.exports = function(version) {
   const platforms = [ "win", "mac", "linux" ];
@@ -8,7 +8,7 @@ module.exports = function(version) {
 
   const downloads = flatMap(platforms.map(function(platform) {
     return architectures.map(function(arch) {
-      return download(version, platform, arch);
+      return downloader(version, platform, arch);
     })
   }));
 
