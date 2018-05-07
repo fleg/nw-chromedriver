@@ -1,6 +1,6 @@
 "use strict";
 
-const version = "0.13.0";
+const version = process.env.NW_VERSION;
 
 const download = require("./download");
 const upload = require("./upload");
