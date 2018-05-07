@@ -1,12 +1,17 @@
 "use strict";
 
-const version = "0.13.0";
-
-const downloads = require("./fetch")(version);
+const driverVersion = require("./chromedriver-version");
 const uploader = require("./uploader");
 
-downloads.then(function(drivers) {
-  return drivers.map(function(driver) {
-    return uploader(driver.version, driver.platform, driver.arch, driver.path);
-  });
-});
+module.exports = function(drivers) {
+  return driverVersion(drivers)
+    .then(function(drivers) {
+      const uploads = drivers.map(function(driver) {
+        return uploader(driver.driverVersion, driver.platform, driver.arch, driver.path);
+      });
+
+      return Promise.all(uploads).then(function() {
+        return drivers;
+      });
+    });
+};
