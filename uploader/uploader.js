@@ -13,7 +13,8 @@ AWS.config.update({
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
 const DEFAULT_PARAMS = {
-  Bucket: "nw-chromedriver"
+  Bucket: "nw-chromedriver",
+  ContentType: "application/octet-stream"
 };
 
 /**
@@ -29,15 +30,21 @@ module.exports = function(version, platform, arch, filepath) {
     params.Key = makeKey(version, platform, arch);
     params.Body = fs.createReadStream(filepath);
 
-    console.log("Uploading '" + params.Key + "'");
+    determineFileSize(filepath)
+      .then(function(size) {
+        params.ContentLength = size;
+      })
+      .then(function() {
+        console.log("Uploading '" + params.Key + "'");
 
-    s3.putObject(params, function(err, data) {
-      if (err) {
-        return reject(err);
-      }
+        s3.putObject(params, function(err, data) {
+          if (err) {
+            return reject(err);
+          }
 
-      resolve(data);
-    })
+          resolve(data);
+        });
+      });
   });
 };
 
@@ -45,4 +52,16 @@ function makeKey(version, platform, arch) {
   const suffix = platform === "win" ? ".exe" : "";
 
   return version + "/chromedriver-" + platform + "-" + arch + suffix;
+}
+
+function determineFileSize(filepath) {
+  return new Promise(function(resolve, reject) {
+    fs.stat(filepath, function(err, stats) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(stats.size);
+    })
+  })
 }
