@@ -1,46 +1,65 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 
-const AWS = require("aws-sdk");
+const pkgUp = require("pkg-up");
 
-const crypto = require("./crypto");
+const download = require("./downloader");
 
-/*
- * Due to crypto miners scanning GitHub for AWS credentials, even though the IAM user is locked down
- * I want to make it a little bit harder for them ;)
- */
-const secretAccessKey = "47Nh42pA8atn64AokCuSjU1G/6smcFLGBcC/C6FJ/nFUa1BDdGbq4FjdR3plK/vb";
+const version = process.env.NW_VERSION || readVersion();
+const platform = mapPlatform(process.env.NW_PLATFORM || process.platform);
+const arch = mapArch(process.env.NW_ARCH || process.arch);
 
-AWS.config.update({
-  accessKeyId: "AKIAJCANJBNBJZZC2O7A",
-  secretAccessKey: crypto.decrypt(secretAccessKey, "cdf792a6-5026-11e8-ba6f-6c4008ad2980"),
-  region: "ap-southeast-2"
-});
+download(version, platform, arch)
+  .catch(function(err) {
+    if (err.statusCode === 404) {
+      console.error("Chromedriver '" + version + ":" + platform + ":" + arch + "' doesn't exist")
+    }
+    else {
+      console.error(err);
+    }
 
-const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+    process.exit(1);
+  });
 
-const params = {
-  Bucket: "nw-chromedriver",
-  Key: "chromedriver-2.3.0-osx-x64"
-};
+function mapPlatform(platform) {
+  switch(platform) {
+    case "win32":
+    case "win":
+      return "win";
 
-const req = s3.getObject(params);
+    case "darwin":
+    case "osx":
+    case "mac":
+      return "mac";
 
-req.on("httpHeaders", function(statusCode, headers, response) {
-  if (statusCode === 200) {
-    // the driver is being fetched, but we don't want to buffer it
-    const body = response.httpResponse.createUnbufferedStream();
-    const dest = fs.createWriteStream("/tmp/chromedriver");
+    case "linux":
+      return "linux";
 
-    body.pipe(dest);
+    default:
+      throw new Error("ERROR_UNKNOWN_PLATFORM");
   }
-});
+}
 
-req.on("error", function(err) {
-  console.log(err, err.stack);
-  process.exit(1);
-});
+function mapArch(arch) {
+  switch (arch) {
+    case "ia32":
+      return "x86";
 
-req.send();
+    case "x64":
+      return "x64";
 
+    default:
+      throw new Error("UNKNOWN ARCH");
+  }
+}
+
+function readVersion() {
+  const cwd = path.resolve(path.join(__dirname, ".."));
+  const pkgPath = pkgUp.sync(cwd);
+
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, { encoding: "utf8" }));
+
+  return pkg.version;
+}

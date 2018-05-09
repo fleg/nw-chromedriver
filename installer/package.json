@@ -26,7 +26,8 @@
     "node": ">= 0.10.48"
   },
   "dependencies": {
-    "aws-sdk": "^2.233.1"
+    "aws-sdk": "^2.233.1",
+    "pkg-up": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1"
