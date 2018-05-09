@@ -11,7 +11,7 @@ module.exports = function(driverVersion, nwVersion, hash) {
     readPackageJson()
       .then(function(json) {
         json.version = driverVersion;
-        json.hash = hash;
+        json.versionHash = hash;
         json.engines.nw = nwVersion;
 
         return json;
