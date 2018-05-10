@@ -2,11 +2,14 @@
 
 const spawn = require("child_process").spawn;
 
+const semver = require("semver");
+
 module.exports = function(drivers) {
   const bin = findBin(drivers);
 
   return executeDriver(bin)
     .then(splitVersion)
+    .then(standardiseVersion)
     .then(function(version) {
       return drivers.map(function(driver) {
         driver.driverVersion = version.version;
@@ -114,4 +117,15 @@ function splitVersion(version) {
     version: pieces[1],
     hash: pieces[2].replace("(", "").replace(")", "")
   };
+}
+
+function standardiseVersion(version) {
+  /*
+   * If the version isn't a valid semver, then fix it
+   */
+  if (semver.valid(version.version) === null) {
+    version.version = semver.coerce(version.version).version;
+  }
+
+  return version;
 }
