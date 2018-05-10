@@ -1,6 +1,6 @@
 {
   "name": "nw-chromedriver-installer",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha1",
   "description": "installs the chromedriver binary",
   "repository": {
     "type": "git",
