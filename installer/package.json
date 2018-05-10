@@ -28,6 +28,9 @@
   "bin": {
     "chromedriver": "./bin/chromedriver"
   },
+  "scripts": {
+    "install": "node install.js"
+  },
   "dependencies": {
     "aws-sdk": "^2.233.1",
     "pkg-up": "^2.0.0"
