@@ -16,5 +16,12 @@
   ],
   "license": "MIT",
   "homepage": "https://github.com/fleg/nw-chromedriver#readme",
-  "keywords": [ "nw", "nw.js", "chromedriver" ]
+  "keywords": [
+    "nw",
+    "nw.js",
+    "chromedriver"
+  ],
+  "engines": {
+    "node": ">= 0.10.48"
+  }
 }
