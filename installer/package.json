@@ -25,6 +25,9 @@
   "engines": {
     "node": ">= 0.10.48"
   },
+  "bin": {
+    "chromedriver": "./bin/chromedriver"
+  },
   "dependencies": {
     "aws-sdk": "^2.233.1",
     "pkg-up": "^2.0.0"
