@@ -36,29 +36,35 @@ module.exports = function(version, platform, arch) {
 
     const destPath = path.resolve(path.join(__dirname, "chromedriver"));
 
-    console.log("Downloading '" + params.Key + "' to '" + destPath + "'");
+    if (!fs.existsSync(destPath)) {
+      console.log("Downloading '" + params.Key + "' to '" + destPath + "'");
 
-    const req = s3.getObject(params);
+      const req = s3.getObject(params);
 
-    req.on("httpHeaders", function(statusCode, headers, response) {
-      if (statusCode === 200) {
-        // the driver is being fetched, but we don't want to buffer it
-        const body = response.httpResponse.createUnbufferedStream();
-        const dest = fs.createWriteStream(destPath);
+      req.on("httpHeaders", function(statusCode, headers, response) {
+        if (statusCode === 200) {
+          // the driver is being fetched, but we don't want to buffer it
+          const body = response.httpResponse.createUnbufferedStream();
+          const dest = fs.createWriteStream(destPath);
 
-        body.pipe(dest);
-      }
-    });
+          body.pipe(dest);
+        }
+      });
 
-    req.on("error", function(err) {
-      reject(err);
-    });
+      req.on("error", function(err) {
+        reject(err);
+      });
 
-    req.on("success", function() {
+      req.on("success", function() {
+        resolve(destPath);
+      });
+
+      req.send();
+    }
+    else {
+      console.log("'" + destPath + "' already exists");
       resolve(destPath);
-    });
-
-    req.send();
+    }
   });
 };
 
