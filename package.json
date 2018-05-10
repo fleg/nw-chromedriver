@@ -23,5 +23,8 @@
   ],
   "engines": {
     "node": ">= 0.10.48"
+  },
+  "dependencies": {
+    "nw-chromedriver-installer": "latest"
   }
 }
