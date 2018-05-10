@@ -12,6 +12,10 @@ const platform = mapPlatform(process.env.NW_PLATFORM || process.platform);
 const arch = mapArch(process.env.NW_ARCH || process.arch);
 
 download(version, platform, arch)
+  .then(fixFilePermissions)
+  .then(function(path) {
+    console.log("Chromedriver binary available at '" + path + "'");
+  })
   .catch(function(err) {
     if (err.statusCode === 404) {
       console.error("Chromedriver '" + version + ":" + platform + ":" + arch + "' doesn't exist")
@@ -62,4 +66,20 @@ function readVersion() {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, { encoding: "utf8" }));
 
   return pkg.version;
+}
+
+// borrowed from node-chromedriver
+function fixFilePermissions(path) {
+  // Check that the binary is user-executable
+  if (platform !== "win") {
+    const stat = fs.statSync(path);
+
+    // 64 == 0100 (no octal literal in strict mode)
+    if (!(stat.mode & 64)) { // eslint-disable-line no-bitwise
+      console.log("Making Chromedriver executable");
+      fs.chmodSync(path, "755");
+    }
+  }
+
+  return path;
 }
