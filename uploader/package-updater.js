@@ -7,19 +7,15 @@ const filename = path.resolve(path.join(__dirname, "../package.json"));
 const encoding = { encoding: "utf8" };
 
 module.exports = function(driverVersion, nwVersion, hash) {
-  return new Promise(function(resolve, reject) {
-    readPackageJson()
-      .then(function(json) {
-        json.version = driverVersion;
-        json.versionHash = hash;
-        json.engines.nw = nwVersion;
+  return readPackageJson()
+    .then(function(json) {
+      json.version = driverVersion;
+      json.versionHash = hash;
+      json.engines.nw = nwVersion;
 
-        return json;
-      })
-      .then(writePackageJson)
-      .then(resolve)
-      .catch(reject)
-  });
+      return json;
+    })
+    .then(writePackageJson);
 };
 
 function readPackageJson() {
