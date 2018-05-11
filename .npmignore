@@ -2,4 +2,5 @@
 /.idea/
 /installer/
 /uploader/
+/nwscrapper/
 !/encrypt.js

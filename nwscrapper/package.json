@@ -1,0 +1,28 @@
+{
+  "name": "nw-scrapper",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Lists nw versions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fleg/nw-chromedriver.git"
+  },
+  "contributors": [
+    {
+      "name": "fleg"
+    },
+    {
+      "name": "Kieran Simpson"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/fleg/nw-chromedriver#readme",
+  "keywords": [
+    "nw",
+    "nw.js",
+    "chromedriver"
+  ],
+  "engines": {
+    "node": ">= 0.12.18"
+  }
+}
