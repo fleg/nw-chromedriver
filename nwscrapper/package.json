@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "eslint": "^4.19.1"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
   }
 }
