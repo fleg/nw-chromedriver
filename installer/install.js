@@ -5,14 +5,11 @@ const fs = require("fs");
 const download = require("./downloader");
 const nwChromedriverVersion = require("./nw-chromedriver-version");
 
-var version = null;
 const platform = mapPlatform(process.env.CHROMEDRIVER_PLATFORM || process.platform);
 const arch = mapArch(process.env.CHROMEDRIVER_ARCH || process.arch);
 
 readVersion()
-  .then(function(v) {
-    version = v;
-
+  .then(function(version) {
     return download(version, platform, arch)
   })
   .then(fixFilePermissions)
@@ -20,12 +17,7 @@ readVersion()
     console.log("Chromedriver binary available at '" + path + "'");
   })
   .catch(function(err) {
-    if (err.statusCode === 404) {
-      console.error("Chromedriver '" + version + ":" + platform + ":" + arch + "' doesn't exist")
-    }
-    else {
-      console.error(err);
-    }
+    console.error(err);
 
     process.exit(1);
   });

@@ -52,6 +52,10 @@ module.exports = function(version, platform, arch) {
       });
 
       req.on("error", function(err) {
+        if (err.statusCode === 404) {
+          return reject(new Error("Chromedriver '" + version + ":" + platform + ":" + arch + "' doesn't exist"));
+        }
+
         reject(err);
       });
 
