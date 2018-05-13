@@ -2,6 +2,12 @@
 
 const downloader = require("./downloader");
 
+/**
+ * Downloads all SDK flavours of a NW.js version.
+ *
+ * @param version
+ * @return {Promise<any[]>}
+ */
 module.exports = function(version) {
   const platforms = [ "win", "mac", "linux" ];
   const architectures = [ "x86", "x64" ];
