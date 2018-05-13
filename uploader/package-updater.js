@@ -10,8 +10,9 @@ module.exports = function(driverVersion, nwVersion, hash) {
   return readPackageJson()
     .then(function(json) {
       json.version = driverVersion;
-      json.versionHash = hash;
-      json.engines.nw = nwVersion;
+      json.chromeDriver = {};
+      json.chromeDriver.versionHash = hash;
+      json.chromeDriver.nwVersion = nwVersion;
 
       return json;
     })
