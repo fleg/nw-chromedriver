@@ -1,17 +1,20 @@
 "use strict";
 
 const fs = require("fs");
-const path = require("path");
-
-const pkgUp = require("pkg-up");
 
 const download = require("./downloader");
+const nwChromedriverVersion = require("./nw-chromedriver-version");
 
-const version = process.env.NW_VERSION || readVersion();
+var version = null;
 const platform = mapPlatform(process.env.NW_PLATFORM || process.platform);
 const arch = mapArch(process.env.NW_ARCH || process.arch);
 
-download(version, platform, arch)
+readVersion()
+  .then(function(v) {
+    version = v;
+
+    return download(version, platform, arch)
+  })
   .then(fixFilePermissions)
   .then(function(path) {
     console.log("Chromedriver binary available at '" + path + "'");
@@ -60,12 +63,13 @@ function mapArch(arch) {
 }
 
 function readVersion() {
-  const cwd = path.resolve(path.join(__dirname, ".."));
-  const pkgPath = pkgUp.sync(cwd);
+  return new Promise(function(resolve, reject) {
+    if (process.env.NW_VERSION) {
+      return resolve(process.env.NW_VERSION);
+    }
 
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, { encoding: "utf8" }));
-
-  return pkg.version;
+    nwChromedriverVersion().then(resolve, reject);
+  })
 }
 
 // borrowed from node-chromedriver
