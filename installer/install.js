@@ -6,8 +6,8 @@ const download = require("./downloader");
 const nwChromedriverVersion = require("./nw-chromedriver-version");
 
 var version = null;
-const platform = mapPlatform(process.env.NW_PLATFORM || process.platform);
-const arch = mapArch(process.env.NW_ARCH || process.arch);
+const platform = mapPlatform(process.env.CHROMEDRIVER_PLATFORM || process.platform);
+const arch = mapArch(process.env.CHROMEDRIVER_ARCH || process.arch);
 
 readVersion()
   .then(function(v) {
@@ -64,8 +64,8 @@ function mapArch(arch) {
 
 function readVersion() {
   return new Promise(function(resolve, reject) {
-    if (process.env.NW_VERSION) {
-      return resolve(process.env.NW_VERSION);
+    if (process.env.CHROMEDRIVER_VERSION) {
+      return resolve(process.env.CHROMEDRIVER_VERSION);
     }
 
     nwChromedriverVersion().then(resolve, reject);
