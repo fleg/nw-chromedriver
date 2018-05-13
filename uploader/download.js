@@ -6,7 +6,7 @@ module.exports = function(version) {
   const platforms = [ "win", "mac", "linux" ];
   const architectures = [ "x86", "x64" ];
 
-  const downloads = flatMap(platforms.map(function(platform) {
+  const downloads = flatten(platforms.map(function(platform) {
     return architectures.map(function(arch) {
       return downloader(version, platform, arch);
     })
@@ -27,10 +27,10 @@ module.exports = function(version) {
     });
 };
 
-function flatMap(arr) {
-  const flatten = function(arr, value) {
+function flatten(arr) {
+  const accumulator = function(arr, value) {
     return arr.concat(value);
   };
 
-  return arr.reduce(flatten, [])
+  return arr.reduce(accumulator, [])
 }
