@@ -12,21 +12,20 @@ scraper("http://dl.nwjs.io/")
   .then(function(body) {
     const $ = cheerio.load(body);
 
-    var versions = $("a").map(function(i, link) {
-      return $(link).text();
-    }).get();
-
-    versions = versions.filter(function(version) {
-      return RELEASE.test(version);
-    });
-
-    versions = versions.map(function(version) {
-      return version.replace("v", "").replace("/", "");
-    });
-
-    versions = versions.filter(function(version) {
-      return semver.gte(version, MIN_VERSION);
-    });
+    const versions = $("a")
+      .map(function(i, link) {
+        return $(link).text();
+      })
+      .get()
+      .filter(function(version) {
+        return RELEASE.test(version);
+      })
+      .map(function(version) {
+        return version.replace("v", "").replace("/", "");
+      })
+      .filter(function(version) {
+        return semver.gte(version, MIN_VERSION);
+      });
 
     versions.forEach(function(version) {
       console.log(version);
