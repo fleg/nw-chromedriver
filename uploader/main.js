@@ -14,7 +14,7 @@ uploads
   .then(function(uploads) {
     const upload = uploads[0];
 
-    return packageUpdater(upload.driverVersion, upload.nwVersion, upload.driverHash);
+    return packageUpdater(upload.driverVersion, upload.nwVersion);
   })
   .catch(function(err) {
     console.error(err.message);

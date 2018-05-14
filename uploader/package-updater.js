@@ -6,12 +6,11 @@ const path = require("path");
 const filename = path.resolve(path.join(__dirname, "../package.json"));
 const encoding = { encoding: "utf8" };
 
-module.exports = function(driverVersion, nwVersion, hash) {
+module.exports = function(driverVersion, nwVersion) {
   return readPackageJson()
     .then(function(json) {
       json.version = driverVersion;
       json.chromeDriver = {};
-      json.chromeDriver.versionHash = hash;
       json.chromeDriver.nwVersion = nwVersion;
 
       return json;
