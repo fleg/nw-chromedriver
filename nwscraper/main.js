@@ -3,12 +3,12 @@
 const cheerio = require("cheerio");
 const semver = require("semver");
 
-const scrapper = require("./scrapper");
+const scraper = require("./scraper");
 
 const RELEASE = /^v\d+\.\d+\.\d+\/$/;
 const MIN_VERSION = "0.13.0";
 
-scrapper("http://dl.nwjs.io/")
+scraper("http://dl.nwjs.io/")
   .then(function(body) {
     const $ = cheerio.load(body);
 
