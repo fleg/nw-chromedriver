@@ -17,25 +17,25 @@ module.exports = function() {
 };
 
 function findNwChromeDriver() {
-  const searchPath = path.resolve(path.join(__dirname, ".."));
+  const startingPath = path.resolve(path.join(__dirname, ".."));
 
   return new Promise(function(resolve, reject) {
-    const readdir = function(searchPath) {
-      fs.readdir(searchPath, function(err, files) {
+    const lookInDirFor = function(dirPath, dir) {
+      fs.readdir(dirPath, function(err, files) {
         if (err) {
           return reject(err);
         }
 
-        if (files.includes("nw-chromedriver")) {
-          resolve(path.join(searchPath, "nw-chromedriver"))
+        if (files.includes(dir)) {
+          resolve(path.join(dirPath, dir))
         }
         else {
-          readdir(path.resolve(path.join(searchPath, "..")));
+          lookInDirFor(path.resolve(path.join(dirPath, "..")), dir);
         }
       });
     };
 
-    readdir(searchPath);
+    lookInDirFor(startingPath, "nw-chromedriver");
   });
 }
 
