@@ -1,0 +1,40 @@
+{
+  "name": "nw-chromedriver-installer",
+  "version": "1.0.0-alpha1",
+  "description": "installs the chromedriver binary",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fleg/nw-chromedriver.git"
+  },
+  "contributors": [
+    {
+      "name": "fleg"
+    },
+    {
+      "name": "Kieran Simpson"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/fleg/nw-chromedriver#readme",
+  "keywords": [
+    "nw",
+    "nw.js",
+    "chromedriver"
+  ],
+  "main": "install.js",
+  "engines": {
+    "node": ">= 0.10.48"
+  },
+  "bin": {
+    "chromedriver": "./bin/chromedriver"
+  },
+  "scripts": {
+    "install": "node install.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.233.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
+}
