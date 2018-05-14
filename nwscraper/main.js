@@ -6,7 +6,7 @@ const semver = require("semver");
 const scraper = require("./scraper");
 
 const RELEASE = /^v\d+\.\d+\.\d+\/$/;
-const MIN_VERSION = "0.13.0";
+const MIN_VERSION = process.env.MIN_NW_VERSION || "0.13.0";
 
 scraper("http://dl.nwjs.io/")
   .then(function(body) {
