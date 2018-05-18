@@ -1,6 +1,6 @@
 {
   "name": "nw-chromedriver",
-  "version": "2.35.0",
+  "version": "2.36.0",
   "description": "nw.js chromedriver binary",
   "repository": {
     "type": "git",
@@ -28,6 +28,6 @@
     "nw-chromedriver-installer": "latest"
   },
   "chromeDriver": {
-    "nwVersion": "0.29.0"
+    "nwVersion": "0.30.0"
   }
 }
