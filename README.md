@@ -1,5 +1,9 @@
 # nw-chromedriver
 
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/kdizzle777)
+
+[![Bitcoin Donate Button**](https://www.drupal.org/files/project-images/bitcoindonate.png)](bitcoin:18xE1NZgT6SAigqTzgPJG4YDNJTygEDTQa)
+
 Installs the version of ChromeDriver that is distributed with [NW.js](https://nwjs.io/)
 
 ## Why this module?
@@ -19,3 +23,7 @@ $ npm install nw-chromedriver --save-dev
 
 $ ./node_modules/.bin/chromedriver --version
 ```
+
+## Donations welcome
+
+Donations towards hosting costs welcome.
