@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const AWS = require("aws-sdk");
+const home = require("user-home");
 
 const crypto = require("./crypto");
 
@@ -34,7 +35,7 @@ module.exports = function(version, platform, arch) {
       Key: makeKey(version, platform, arch)
     };
 
-    const destPath = path.resolve(path.join(__dirname, "chromedriver"));
+    const destPath = createDestPath(params.Key);
 
     if (!fs.existsSync(destPath)) {
       console.log("Downloading '" + params.Key + "' to '" + destPath + "'");
@@ -72,8 +73,37 @@ module.exports = function(version, platform, arch) {
   });
 };
 
+function createDestPath(filename) {
+  const dir = path.join(".nwchromedriver", filename);
+
+  createDestDir(home, dir);
+
+  return path.join(home, dir);
+}
+
+function createDestDir(base, dir) {
+  const mkdir = (dir, segment) => {
+    const dest = path.join(dir, segment);
+
+    createDirSync(dest);
+
+    return dest;
+  };
+
+  return path.dirname(dir).split(path.sep).reduce(mkdir, base);
+}
+
+function createDirSync(dir) {
+  try {
+    fs.statSync(dir);
+  }
+  catch (e) {
+    fs.mkdirSync(dir);
+  }
+}
+
 function makeKey(version, platform, arch) {
   const suffix = platform === "win" ? ".exe" : "";
 
-  return version + "/chromedriver-" + platform + "-" + arch + suffix;
+  return path.join(version, "chromedriver-" + platform + "-" + arch + suffix);
 }

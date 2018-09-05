@@ -32,7 +32,8 @@
     "install": "node install.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.233.1"
+    "aws-sdk": "^2.233.1",
+    "user-home": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1"
