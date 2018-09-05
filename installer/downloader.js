@@ -7,6 +7,7 @@ const AWS = require("aws-sdk");
 const home = require("user-home");
 
 const crypto = require("./crypto");
+const utils = require("./utils");
 
 /*
  * Due to crypto miners scanning GitHub for AWS credentials, even though the IAM user is locked down
@@ -32,7 +33,7 @@ module.exports = function(version, platform, arch) {
   return new Promise(function(resolve, reject) {
     const params = {
       Bucket: "nw-chromedriver",
-      Key: makeKey(version, platform, arch)
+      Key: utils.makeFilename(version, platform, arch)
     };
 
     const destPath = createDestPath(params.Key);
@@ -74,7 +75,7 @@ module.exports = function(version, platform, arch) {
 };
 
 function createDestPath(filename) {
-  const dir = path.join(".nwchromedriver", filename);
+  const dir = utils.makeDestDir(filename);
 
   createDestDir(home, dir);
 
@@ -100,10 +101,4 @@ function createDirSync(dir) {
   catch (e) {
     fs.mkdirSync(dir);
   }
-}
-
-function makeKey(version, platform, arch) {
-  const suffix = platform === "win" ? ".exe" : "";
-
-  return path.join(version, "chromedriver-" + platform + "-" + arch + suffix);
 }
