@@ -5,14 +5,14 @@ const spawn = require("child_process").spawn;
 
 const home = require("user-home");
 
-const utils = require(path.resolve(__dirname, "..", "utils.js"));
+const utils = require("../utils.js");
 
 const platform = utils.mapPlatform(process.env.CHROMEDRIVER_PLATFORM || process.platform);
 const arch = utils.mapArch(process.env.CHROMEDRIVER_ARCH || process.arch);
 
 utils.readVersion()
   .then(function(version) {
-    const destDir = utils.makeDestDir(utils.makeFilename(version, platform, arch));
+    const destDir = utils.makeDestPath(version, platform, arch);
     const binPath = path.join(home, destDir);
     const args = process.argv.slice(2);
 

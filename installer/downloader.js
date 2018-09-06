@@ -33,10 +33,10 @@ module.exports = function(version, platform, arch) {
   return new Promise(function(resolve, reject) {
     const params = {
       Bucket: "nw-chromedriver",
-      Key: utils.makeFilename(version, platform, arch)
+      Key: utils.makeKey(version, platform, arch)
     };
 
-    const destPath = createDestPath(params.Key);
+    const destPath = createDestPath(version, platform, arch);
 
     if (!fs.existsSync(destPath)) {
       console.log("Downloading '" + params.Key + "' to '" + destPath + "'");
@@ -74,12 +74,12 @@ module.exports = function(version, platform, arch) {
   });
 };
 
-function createDestPath(filename) {
-  const dir = utils.makeDestDir(filename);
+function createDestPath(version, platform, arch) {
+  const destPath = utils.makeDestPath(version, platform, arch);
 
-  createDestDir(home, dir);
+  createDestDir(home, path.dirname(destPath));
 
-  return path.join(home, dir);
+  return path.join(home, destPath);
 }
 
 function createDestDir(base, dir) {
@@ -91,7 +91,7 @@ function createDestDir(base, dir) {
     return dest;
   };
 
-  return path.dirname(dir).split(path.sep).reduce(mkdir, base);
+  return dir.split(path.sep).reduce(mkdir, base);
 }
 
 function createDirSync(dir) {

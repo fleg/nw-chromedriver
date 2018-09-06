@@ -46,12 +46,21 @@ exports.mapArch = function(arch) {
   }
 };
 
-exports.makeFilename = function(version, platform, arch) {
+exports.makeKey = function(version, platform, arch) {
   const suffix = platform === "win" ? ".exe" : "";
 
-  return path.join(version, "chromedriver-" + platform + "-" + arch + suffix);
+  return version + "/chromedriver-" + platform + "-" + arch + suffix;
 };
 
-exports.makeDestDir = function(filename) {
-  return path.join(".nwchromedriver", filename);
+exports.makeDestPath = function(version, platform, arch) {
+  let key = exports.makeKey(version, platform, arch);
+
+  /*
+   * The path sep for the key is linux style, but we might be on windows
+   */
+  if (path.sep !== "/") {
+    key = key.replace("/", path.sep);
+  }
+
+  return path.join(".nwchromedriver", key);
 };
