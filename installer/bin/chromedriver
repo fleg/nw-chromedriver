@@ -3,27 +3,26 @@
 const path = require("path");
 const spawn = require("child_process").spawn;
 
-const suffix = suffixForPlatform();
-const binPath = path.resolve(path.join(__dirname, "..", "chromedriver" + suffix));
-const args = process.argv.slice(2);
+const home = require("user-home");
 
-const cp = spawn(binPath, args);
-cp.stdout.pipe(process.stdout);
-cp.stderr.pipe(process.stderr);
+const utils = require("../utils.js");
 
-cp.on("exit", process.exit);
-process.on("SIGTERM", function() {
-  cp.kill("SIGTERM");
-  process.exit(1);
-});
+const platform = utils.mapPlatform(process.env.CHROMEDRIVER_PLATFORM || process.platform);
+const arch = utils.mapArch(process.env.CHROMEDRIVER_ARCH || process.arch);
 
-function suffixForPlatform() {
-  switch(process.platform) {
-    case "win32":
-    case "win":
-      return ".exe";
+utils.readVersion()
+  .then(function(version) {
+    const destDir = utils.makeDestPath(version, platform, arch);
+    const binPath = path.join(home, destDir);
+    const args = process.argv.slice(2);
 
-    default:
-      return "";
-  }
-}
+    const cp = spawn(binPath, args);
+    cp.stdout.pipe(process.stdout);
+    cp.stderr.pipe(process.stderr);
+
+    cp.on("exit", process.exit);
+    process.on("SIGTERM", function() {
+      cp.kill("SIGTERM");
+      process.exit(1);
+    });
+  });

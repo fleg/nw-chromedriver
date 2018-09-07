@@ -4,8 +4,10 @@ const fs = require("fs");
 const path = require("path");
 
 const AWS = require("aws-sdk");
+const home = require("user-home");
 
 const crypto = require("./crypto");
+const utils = require("./utils");
 
 /*
  * Due to crypto miners scanning GitHub for AWS credentials, even though the IAM user is locked down
@@ -31,10 +33,10 @@ module.exports = function(version, platform, arch) {
   return new Promise(function(resolve, reject) {
     const params = {
       Bucket: "nw-chromedriver",
-      Key: makeKey(version, platform, arch)
+      Key: utils.makeKey(version, platform, arch)
     };
 
-    const destPath = path.resolve(path.join(__dirname, "chromedriver"));
+    const destPath = createDestPath(version, platform, arch);
 
     if (!fs.existsSync(destPath)) {
       console.log("Downloading '" + params.Key + "' to '" + destPath + "'");
@@ -72,8 +74,31 @@ module.exports = function(version, platform, arch) {
   });
 };
 
-function makeKey(version, platform, arch) {
-  const suffix = platform === "win" ? ".exe" : "";
+function createDestPath(version, platform, arch) {
+  const destPath = utils.makeDestPath(version, platform, arch);
 
-  return version + "/chromedriver-" + platform + "-" + arch + suffix;
+  createDestDir(home, path.dirname(destPath));
+
+  return path.join(home, destPath);
+}
+
+function createDestDir(base, dir) {
+  const mkdir = (dir, segment) => {
+    const dest = path.join(dir, segment);
+
+    createDirSync(dest);
+
+    return dest;
+  };
+
+  return dir.split(path.sep).reduce(mkdir, base);
+}
+
+function createDirSync(dir) {
+  try {
+    fs.statSync(dir);
+  }
+  catch (e) {
+    fs.mkdirSync(dir);
+  }
 }
